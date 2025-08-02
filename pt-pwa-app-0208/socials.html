@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+  <title>Social Media</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2em;
+      padding: 2em;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-title {
+      padding: 1em;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #111;
+      background: #f8f8f8;
+    }
+
+    .card a {
+      color: inherit;
+      text-decoration: none;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        padding: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="burger" id="burger">&#9776;</div>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="pricing-and-services.html">Pricing</a>
+      <a href="workouts.html">Workouts</a>
+      <a href="nutrition.html">Nutrition</a>
+      <a href="contact.html">Contact</a>
+      <a href="socials.html">Socials</a>
+      <a href="faq.html">FAQs</a>
+      <a href="client-upload.html">Client Upload</a>
+    </nav>
+    <h1>Andre Georgiou Personal Training</h1>
+  </header>
+
+  <main>
+    <h2 style="text-align: center;">Follow Me On Socials</h2>
+    <div class="grid">
+      <div class="card">
+        <a href="https://www.instagram.com/andregeorgiou" target="_blank">
+          <img src="https://placehold.co/300x180?text=Instagram" alt="Instagram" />
+          <div class="card-title">@andregeorgiou</div>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="https://www.tiktok.com/@andregeorgiou_" target="_blank">
+          <img src="https://placehold.co/300x180?text=TikTok" alt="TikTok" />
+          <div class="card-title">@andregeorgiou_</div>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="#" target="_blank">
+          <img src="https://placehold.co/300x180?text=YouTube" alt="YouTube" />
+          <div class="card-title">YouTube (Coming Soon)</div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Personal Trainer App</p>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+    burger.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('Service Worker error', err));
+    }
+  </script>
+
+</body>
+</html>

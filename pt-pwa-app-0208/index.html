@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <title>Andre Georgiou Personal Training</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Single, unified header -->
+  <header>
+    <div class="burger" id="burger">&#9776;</div>
+    <h1 id="site-title"></h1> <!-- Dynamic title -->
+
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="pricing-and-services.html">Pricing and Services</a>
+      <a href="workouts.html">Workouts</a>
+      <a href="nutrition.html">Nutrition</a>
+      <a href="contact.html">Contact</a>
+      <a href="socials.html">Socials</a>
+      <a href="faq.html">FAQs</a>
+      <a href="client-upload.html">Client Upload</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Welcome to Your Training Hub</h2>
+    <p>This is your dedicated portal for your personal training journey — a one-stop space to access workouts, log your progress, and stay inspired as you work toward your goals.</p>
+
+    <h3>About Me</h3>
+    <p>I’m a qualified personal trainer with experience coaching people at all stages of their fitness journey — from beginners to seasoned lifters. I’ve helped clients build strength, boost confidence, and create sustainable routines that work in real life.</p>
+    <p>My approach is simple, no-nonsense, and focused on what works. No gimmicks. No pressure. Just consistent, effective support tailored to you.</p>
+
+    <h3>What You’ll Find Here</h3>
+    <ul>
+      <li>🎥 Guided workout tutorials</li>
+      <li>📥 A space to upload your progress or log workouts</li>
+      <li>📚 Tips on nutrition, recovery, and mindset</li>
+      <li>🙌 Support from a coach who’s with you every step of the way</li>
+    </ul>
+
+    <p>Use the navigation above to explore — and remember, this is your journey. Let’s make it powerful, sustainable, and yours.</p>
+  </main>
+
+  <footer>
+    <p>&copy; Draft PT PWA</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Dynamic title text
+    document.getElementById("site-title").textContent = "Andre Georgiou Personal Training";
+
+    // Burger menu toggle
+    const burger = document.getElementById("burger");
+    const navMenu = document.getElementById("navMenu");
+
+    burger.addEventListener("click", () => {
+      navMenu.classList.toggle("show");
+    });
+
+    // Service Worker registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('Service Worker error', err));
+    }
+  </script>
+</body>
+</html>

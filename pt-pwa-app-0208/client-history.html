@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+  <title>Client Progress History</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2em;
+      margin: 2em auto;
+      max-width: 1080px;
+      padding: 1em;
+    }
+
+    .progress-card {
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      padding: 1.5em;
+    }
+
+    .progress-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1em;
+    }
+
+    .progress-card h3 {
+      margin-top: 0;
+    }
+
+    .progress-card p {
+      color: #333;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 768px) {
+      .progress-card img {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="burger" id="burger">&#9776;</div>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="pricing-and-services.html">Pricing and Services</a>
+      <a href="workouts.html">Workouts</a>
+      <a href="nutrition.html">Nutrition</a>
+      <a href="contact.html">Contact</a>
+      <a href="socials.html">Socials</a>
+      <a href="faq.html">FAQs</a>
+      <a href="client-upload.html">Client Upload</a>
+      <a href="client-history.html">Client History</a>
+    </nav>
+    <h1>Andre Georgiou Personal Training</h1>
+  </header>
+
+  <main>
+    <h2 style="text-align:center;">Client Progress History</h2>
+    <p style="text-align:center;">Snapshots of consistency. Visual proof that progress is possible.</p>
+
+    <div class="history-grid">
+      <div class="progress-card">
+        <img src="https://via.placeholder.com/400x200" alt="Progress photo">
+        <h3>Laura – Week 4</h3>
+        <p>“Feeling stronger in my lifts. Seeing shape come through in my upper glutes now!”</p>
+      </div>
+      <div class="progress-card">
+        <img src="https://via.placeholder.com/400x200" alt="Progress photo">
+        <h3>Andre – Week 8</h3>
+        <p>“Dropped body fat and feel more energised. Training is really starting to click.”</p>
+      </div>
+      <div class="progress-card">
+        <img src="https://via.placeholder.com/400x200" alt="Progress photo">
+        <h3>Zara – Week 12</h3>
+        <p>“Didn’t expect to get this far — and now I’m motivated to keep pushing.”</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Personal Trainer App</p>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+
+    burger.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('Service Worker error', err));
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+  <title>Workout Tutorials</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2em;
+      padding: 2em;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .card iframe {
+      width: 100%;
+      height: 200px;
+      display: block;
+    }
+
+    .card-title {
+      text-align: center;
+      font-weight: bold;
+      padding: 1em;
+      background: #f4f4f4;
+      color: #111;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        padding: 1em;
+      }
+
+      .card iframe {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="burger" id="burger">&#9776;</div>
+    <nav class="nav-menu" id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="pricing-and-services.html">Pricing</a>
+      <a href="workouts.html">Workouts</a>
+      <a href="nutrition.html">Nutrition</a>
+      <a href="contact.html">Contact</a>
+      <a href="socials.html">Socials</a>
+      <a href="faq.html">FAQs</a>
+      <a href="client-upload.html">Client Upload</a>
+    </nav>
+    <h1>Andre Georgiou Personal Training</h1>
+  </header>
+
+  <main>
+    <h2 style="text-align: center;">Workout Tutorials</h2>
+    <div class="grid">
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/1nZEdqcGVzo" title="Hip Thrust Tutorial" frameborder="0" allowfullscreen></iframe>
+        <div class="card-title">Hip Thrust</div>
+      </div>
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/2SHsk9AzdjA" title="RDL Tutorial" frameborder="0" allowfullscreen></iframe>
+        <div class="card-title">Romanian Deadlift (RDL)</div>
+      </div>
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/aclHkVaku9U" title="Squat Tutorial" frameborder="0" allowfullscreen></iframe>
+        <div class="card-title">Squat</div>
+      </div>
+      <div class="card">
+        <iframe src="https://www.youtube.com/embed/8QZfIv3g0Es" title="Glute Kickback Tutorial" frameborder="0" allowfullscreen></iframe>
+        <div class="card-title">Glute Kickback</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Personal Trainer App</p>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+    burger.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('Service Worker error', err));
+    }
+  </script>
+
+</body>
+</html>

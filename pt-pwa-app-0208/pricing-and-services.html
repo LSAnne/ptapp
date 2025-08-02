@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Pricing & Services</title>
+</head>
+<body>
+
+<header>
+  <div class="burger" id="burger">&#9776;</div>
+  <nav class="nav-menu" id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="pricing-and-services.html">Pricing</a>
+    <a href="workouts.html">Workouts</a>
+    <a href="nutrition.html">Nutrition</a>
+    <a href="contact.html">Contact</a>
+    <a href="socials.html">Socials</a>
+    <a href="faq.html">FAQs</a>
+    <a href="client-upload.html">Client Upload</a>
+    <a href="client-history.html">Progress History</a>
+  </nav>
+  <h1>Andre Georgiou Personal Training</h1>
+</header>
+
+<main>
+  <section class="container">
+    <h2>Services & Pricing</h2>
+
+    <article>
+      <h3>Online Coaching <span style="float:right;">£x/month</span></h3>
+      <p>Everything you need to succeed — bespoke training plan, nutrition guidance, accountability, and weekly check-ins. Fully remote, completely results-focused.</p>
+    </article>
+
+    <hr>
+
+    <article>
+      <h3>One-to-One Personal Training <span style="float:right;">£x/session</span></h3>
+      <p>Train with me in person. Technique coaching, real-time feedback, and targeted progression.</p>
+    </article>
+
+    <hr>
+
+    <article>
+      <h3>Block Bookings <span style="float:right;">£x for 10 sessions</span></h3>
+      <p>Save more and stay committed with a discounted block. Perfect for consistent in-person coaching.</p>
+    </article>
+
+    <hr>
+
+    <article>
+      <h3>Fast Track: 12-Week Transformation <span style="float:right;">£x upfront</span></h3>
+      <p>An intensive programme designed to fast-track your results. Tailored training and meal plan, weekly progress reviews, and mindset coaching.</p>
+    </article>
+
+    <hr>
+
+    <article>
+      <h3>Nutrition Only Coaching <span style="float:right;">£x/month</span></h3>
+      <p>Macronutrient breakdowns, habit tracking, and meal structure tailored to your goals. Ideal if training solo but want results-driven nutrition support.</p>
+    </article>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Personal Trainer App</p>
+</footer>
+
+<script>
+  const burger = document.getElementById('burger');
+  const navMenu = document.getElementById('navMenu');
+  burger.addEventListener('click', () => {
+    navMenu.classList.toggle('show');
+  });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service Worker registered', reg))
+      .catch(err => console.error('Service Worker error', err));
+  }
+</script>
+</body>
+</html>

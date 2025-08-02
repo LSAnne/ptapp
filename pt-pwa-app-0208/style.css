@@ -1,0 +1,105 @@
+/* ===== Global Reset & Base Styles ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  color: #fff;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  padding: 1rem 1.5rem;
+}
+
+/* ===== Main Layout ===== */
+main {
+  padding: 1.5rem;
+  max-width: 960px;
+  margin: auto;
+}
+
+p, ul {
+  margin-bottom: 1rem;
+}
+
+ul {
+  padding-left: 1.5rem;
+}
+
+/* ===== Burger Menu ===== */
+.burger {
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+  display: block;
+  background-color: #111;
+  color: #fff;
+}
+
+.nav-menu {
+  display: none;
+  flex-direction: column;
+  background-color: #111;
+  padding: 1rem;
+}
+
+.nav-menu.show {
+  display: flex;
+}
+
+.nav-menu a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.75rem 0;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.nav-menu a:hover {
+  color: #ccc;
+}
+
+/* ===== Desktop Navigation ===== */
+@media (min-width: 768px) {
+  .burger {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    background-color: #000;
+  }
+
+  .nav-menu a {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.9rem;
+  background-color: #111;
+  color: #aaa;
+  margin-top: 2rem;
+}

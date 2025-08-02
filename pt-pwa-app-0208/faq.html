@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+  <link rel="stylesheet" href="style.css" />
+  <title>FAQs</title>
+</head>
+<body>
+
+<header>
+  <div class="burger" id="burger">&#9776;</div>
+  <nav class="nav-menu" id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="pricing-and-services.html">Pricing and Services</a>
+    <a href="workouts.html">Workouts</a>
+    <a href="nutrition.html">Nutrition</a>
+    <a href="contact.html">Contact</a>
+    <a href="socials.html">Socials</a>
+    <a href="faq.html">FAQs</a>
+    <a href="client-upload.html">Client Upload</a>
+  </nav>
+  <h1>Andre Georgiou Personal Training</h1>
+</header>
+
+<main>
+  <section class="container">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+      <summary>What’s included in online coaching?</summary>
+      <p>You get a personalised training plan, progress tracking, accountability check-ins, and messaging support to keep you on track.</p>
+    </details>
+
+    <details>
+      <summary>Do I need a gym membership?</summary>
+      <p>No — I’ll tailor your plan to what’s available to you, whether that’s at home, outdoors, or in a gym.</p>
+    </details>
+
+    <details>
+      <summary>How do I submit progress photos?</summary>
+      <p>Use the <a href="client-upload.html">Client Upload</a> page to send your photos or Google Sheets. Just paste the link and click submit!</p>
+    </details>
+
+    <details>
+      <summary>How soon can I expect results?</summary>
+      <p>Most clients feel and see progress within 4–6 weeks of consistent training, but the real win is building habits that last.</p>
+    </details>
+
+    <details>
+      <summary>Can I ask questions between check-ins?</summary>
+      <p>Yes! You’ll have access to WhatsApp or email support for questions, form checks, or motivation.</p>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 Personal Trainer App</p>
+</footer>
+
+<script>
+  const burger = document.getElementById('burger');
+  const navMenu = document.getElementById('navMenu');
+  burger.addEventListener('click', () => {
+    navMenu.classList.toggle('show');
+  });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service Worker registered', reg))
+      .catch(err => console.error('Service Worker error', err));
+  }
+</script>
+
+</body>
+</html>
