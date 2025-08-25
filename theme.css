@@ -1,0 +1,81 @@
+/* ---------- Brand tokens ---------- */
+:root{
+  --bg: #0f1113;
+  --surface: #15181c;
+  --surface-2: #1b1f24;
+  --text: #e9eef3;
+  --muted: #a6afba;
+  --primary: #5eead4;       /* teal */
+  --primary-2: #22d3ee;     /* cyan */
+  --danger: #ef4444;
+  --radius: 14px;
+  --shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+
+/* ---------- Global ---------- */
+html,body{ height:100%; }
+body.app-bg{
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(94,234,212,.12), transparent 60%),
+    radial-gradient(900px 500px at 110% 20%, rgba(34,211,238,.12), transparent 55%),
+    linear-gradient(180deg, #0b0d0f 0%, #0f1113 60%, #0f1113 100%);
+  color: var(--text);
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Container sizing that feels app-like */
+.container-narrow{ max-width: 960px; }
+
+/* ---------- Cards / Panels ---------- */
+.card{
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid rgba(255,255,255,.06) !important;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card .card-title{ font-weight: 600; }
+
+/* ---------- Buttons ---------- */
+.btn-primary{
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  border: 0;
+  color: #051013;
+  font-weight: 700;
+}
+.btn-outline-light{
+  border-color: rgba(255,255,255,.2);
+  color: var(--text);
+}
+.btn-outline-light:hover{ background: rgba(255,255,255,.08); }
+
+/* ---------- Navbar ---------- */
+.navbar{
+  background: rgba(9,11,13,.7) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.navbar-brand{
+  font-weight: 700;
+  letter-spacing:.2px;
+}
+
+/* ---------- Forms ---------- */
+.form-control, .form-select, .form-control:focus{
+  background: #12151a;
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+}
+.form-label{ color: var(--muted); }
+
+/* ---------- Lists ---------- */
+.list-group-item{
+  background: #12151a;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+/* ---------- Utilities ---------- */
+.section-title{ margin-top: 2rem; font-weight:700; }
+.text-muted-2{ color: var(--muted) !important; }
+.shadow-soft{ box-shadow: var(--shadow); }
+.round{ border-radius: var(--radius); }

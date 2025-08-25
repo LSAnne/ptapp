@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Assign Session</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style>
+  body{background:#0b0d10;color:#f0f4f8}
+  .card{background:#141820;border:1px solid #2b3342}
+  .form-control,.form-select{background:#1b2130;border:1px solid #2b3342;color:#f0f4f8}
+  .btn-primary{background:#3b82f6;border-color:#3b82f6}
+</style>
+</head>
+<body class="p-4">
+  <div class="container" style="max-width:640px">
+    <h1 class="h4 mb-3">Assign Template to Client</h1>
+    <div class="card p-3">
+      <div class="mb-3">
+        <label class="form-label">Client</label>
+        <select id="client" class="form-select"></select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Template</label>
+        <select id="template" class="form-select"></select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Date</label>
+        <input type="date" id="date" class="form-control"/>
+      </div>
+      <button id="assign" class="btn btn-primary w-100">Assign Session</button>
+      <div id="msg" class="mt-3 small text-success" style="display:none"></div>
+    </div>
+  </div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabase = createClient('https://ukqmpkzljwiwpyvygrai.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrcW1wa3psandpd3B5dnlncmFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMjk1MTAsImV4cCI6MjA2OTgwNTUxMH0.4H3XnW4tYSDofnFeSoEBqACVFh1Ud5sI8bXsnEsiu4E');
+
+let user;
+const els = {
+  client: document.getElementById('client'),
+  template: document.getElementById('template'),
+  date: document.getElementById('date'),
+  assign: document.getElementById('assign'),
+  msg: document.getElementById('msg')
+};
+
+init();
+
+async function init(){
+  // ensure trainer logged in
+  const { data:{ user: u } } = await supabase.auth.getUser();
+  if(!u) return location.href='trainer-login.html';
+  user = u;
+
+  // load clients (all profiles except me)
+  const { data: clients = [] } = await supabase
+    .from('profiles')
+    .select('id, full_name, email')
+    .neq('id', user.id)
+    .order('full_name', { ascending: true });
+
+  els.client.innerHTML = clients.map(c =>
+    `<option value="${c.id}">${c.full_name || c.email || c.id}</option>`
+  ).join('');
+
+  // load my templates
+  const { data: templates = [] } = await supabase
+    .from('workout_templates')
+    .select('id, name')
+    .order('created_at', { ascending: false });
+
+  els.template.innerHTML = templates.map(t =>
+    `<option value="${t.id}">${t.name}</option>`
+  ).join('');
+
+  // default date = today
+  els.date.valueAsDate = new Date();
+
+  els.assign.onclick = assignSession;
+}
+
+async function assignSession(){
+  const p_client_id = els.client.value;
+  const p_template_id = els.template.value;
+  const p_session_date = els.date.value;
+
+  const { data, error } = await supabase.rpc('assign_template_to_client', {
+    p_client_id, p_template_id, p_session_date
+  });
+
+  if(error){
+    els.msg.style.display='block';
+    els.msg.className='mt-3 small text-danger';
+    els.msg.textContent = 'Error: ' + (error.message || 'assignment failed');
+  } else {
+    els.msg.style.display='block';
+    els.msg.className='mt-3 small text-success';
+    els.msg.textContent = 'Assigned! Session ID: ' + data;
+  }
+}
+</script>
+</body>
+</html>

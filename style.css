@@ -103,3 +103,121 @@ footer {
   color: #aaa;
   margin-top: 2rem;
 }
+/* Additional form + table styles */
+.login-form input,
+.login-form button {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+}
+.login-form button.primary {
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+}
+.login-form button.secondary {
+  background: #444;
+  color: #fff;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #111;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+th {
+  background: #222;
+}
+
+tr:hover {
+  background: #1a1a1a;
+}
+
+button.primary {
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button.primary:hover {
+  background: #ccc;
+  color: #000;
+}
+/* Dashboard Layout */
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-welcome {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.tile {
+  background: #111;
+  color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tile:hover {
+  transform: translateY(-4px);
+  background: #222;
+}
+
+.tile h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+
+.tile p {
+  margin-bottom: 0;
+  font-size: 1rem;
+  color: #ccc;
+}
+.icon-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.icon-list li {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workout Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <main class="container">
+    <section class="card">
+      <h2>Workout Tracker</h2>
+      <form id="addWorkoutForm" style="margin-bottom: 1rem;">
+        <input type="date" id="date" required />
+        <input type="text" id="exercise" placeholder="Exercise" required />
+        <input type="number" id="sets" placeholder="Sets" />
+        <input type="number" id="reps" placeholder="Reps" />
+        <input type="text" id="weight" placeholder="Weight" />
+        <input type="text" id="notes" placeholder="Notes" />
+        <button type="submit" class="primary">➕ Add Workout</button>
+      </form>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Exercise</th>
+              <th>Sets</th>
+              <th>Reps</th>
+              <th>Weight</th>
+              <th>Notes</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="workoutBody"></tbody>
+        </table>
+      </div>
+    </section>
+    
+  </main>
+
+  <script type="module">
+    import { supabase, getCurrentUser } from './supabaseClient.js';
+
+    let currentUser;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      currentUser = await getCurrentUser();
+      if (currentUser) {
+        loadWorkouts();
+      }
+    });
+
+    async function loadWorkouts() {
+      const { data, error } = await supabase
+        .from('workouts')
+        .select('*')
+        .eq('client_id', currentUser.id)
+        .order('date', { ascending: false });
+
+      const tbody = document.getElementById('workoutBody');
+      tbody.innerHTML = '';
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      data.forEach(workout => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${workout.date}</td>
+          <td>${workout.exercise}</td>
+          <td>${workout.sets || ''}</td>
+          <td>${workout.reps || ''}</td>
+          <td>${workout.weight || ''}</td>
+          <td>${workout.notes || ''}</td>
+          <td><button data-id="${workout.id}" class="secondary delete-btn">🗑️</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = e.target.getAttribute('data-id');
+          await supabase.from('workouts').delete().eq('id', id);
+          loadWorkouts();
+        });
+      });
+    }
+
+    document.getElementById('addWorkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const { error } = await supabase.from('workouts').insert([{
+        client_id: currentUser.id,
+        date: document.getElementById('date').value,
+        exercise: document.getElementById('exercise').value,
+        sets: document.getElementById('sets').value || null,
+        reps: document.getElementById('reps').value || null,
+        weight: document.getElementById('weight').value || null,
+        notes: document.getElementById('notes').value || null
+      }]);
+
+      if (error) {
+        console.error(error);
+      } else {
+        e.target.reset();
+        loadWorkouts();
+      }
+    });
+  </script>
+</body>
+</html>
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const SUPABASE_URL = 'https://YOUR-PROJECT-REF.supabase.co';
+  const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user) {
+      window.location.href = 'client-login.html';
+      return;
+    }
+
+    // Get profile for logged-in user
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', user.email)
+      .single();
+
+    if (!profile) return;
+
+    const clientId = profile.id;
+
+    // Load workouts
+    const { data: workouts } = await supabase
+      .from('workouts')
+      .select('*')
+      .eq('client_id', clientId)
+      .order('date', { ascending: false });
+
+    const workoutTable = document.querySelector('#workoutTableBody');
+    workouts?.forEach(w => {
+      workoutTable.innerHTML += `
+        <tr>
+          <td>${w.date}</td>
+          <td>${w.exercise}</td>
+          <td>${w.sets}</td>
+          <td>${w.reps}</td>
+          <td>${w.weight}</td>
+          <td>${w.notes || ''}</td>
+        </tr>
+      `;
+    });
+
+    // Load weigh-ins
+    const { data: weighIns } = await supabase
+      .from('weigh_ins')
+      .select('*')
+      .eq('client_id', clientId)
+      .order('date', { ascending: false });
+
+    const weighInTable = document.querySelector('#weighInTableBody');
+    weighIns?.forEach(w => {
+      weighInTable.innerHTML += `
+        <tr>
+          <td>${w.date}</td>
+          <td>${w.weight}</td>
+        </tr>
+      `;
+    });
+
+    // Load measurements
+    const { data: measurements } = await supabase
+      .from('measurements')
+      .select('*')
+      .eq('client_id', clientId)
+      .order('date', { ascending: false });
+
+    const measurementsTable = document.querySelector('#measurementsTableBody');
+    measurements?.forEach(m => {
+      measurementsTable.innerHTML += `
+        <tr>
+          <td>${m.date}</td>
+          <td>${m.arms}</td>
+          <td>${m.chest}</td>
+          <td>${m.waist}</td>
+          <td>${m.hips}</td>
+          <td>${m.thighs}</td>
+        </tr>
+      `;
+    });
+  });
+</script>

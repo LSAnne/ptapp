@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#000000" />
+  <title>Workout Tutorials</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
-  <title>Workout Tutorials</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     .grid {
@@ -47,6 +47,63 @@
       .card iframe {
         height: 180px;
       }
+
+      .dropdown-content {
+        left: 160px;
+        top: 0;
+        border-right: 2px solid #444;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-content a {
+        padding: 12px 16px;
+      }
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background-color: transparent;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 8px 0;
+      text-align: left;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #222;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      left: 0;
+      top: 100%;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 10px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #444;
+    }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content {
+      display: block;
     }
   </style>
 </head>
@@ -54,17 +111,54 @@
 
   <header>
     <div class="burger" id="burger">&#9776;</div>
+    <h1 id="site-title">Andre Georgiou Personal Training</h1>
+
     <nav class="nav-menu" id="navMenu">
-      <a href="index.html">Home</a>
-      <a href="pricing-and-services.html">Pricing</a>
-      <a href="workouts.html">Workouts</a>
-      <a href="nutrition.html">Nutrition</a>
-      <a href="contact.html">Contact</a>
-      <a href="socials.html">Socials</a>
+      <div class="dropdown">
+        <button class="dropbtn">About</button>
+        <div class="dropdown-content">
+          <a href="index.html">Coaching</a>
+          <a href="pricing-and-services.html">Pricing & Services</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropbtn">Workouts & Nutrition</button>
+        <div class="dropdown-content">
+          <a href="workouts.html">Workouts</a>
+          <a href="nutrition.html">Nutrition</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropbtn">Contact</button>
+        <div class="dropdown-content">
+          <a href="contact.html">Get in touch</a>
+          <a href="socials.html">Socials</a>
+        </div>
+      </div>
+
       <a href="faq.html">FAQs</a>
-      <a href="client-upload.html">Client Upload</a>
+
+      <div class="dropdown">
+        <button class="dropbtn">Client Portal</button>
+        <div class="dropdown-content">
+          <a href="client-sign-up.html">Client Sign Up</a>
+          <a href="client-login.html">Client Log In</a>
+          <a href="client-workouts.html">Client Workouts</a>
+          <a href="client-dashboard.html">Client Dashboard</a>
+          <a href="client-upload.html">Client Upload</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropbtn">Trainer Log In</button>
+        <div class="dropdown-content">
+          <a href="trainer-login.html">Trainer Log In</a>
+          <a href="trainer-dashboard.html">Trainer Dashboard</a>
+        </div>
+      </div>
     </nav>
-    <h1>Andre Georgiou Personal Training</h1>
   </header>
 
   <main>

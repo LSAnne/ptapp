@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <title>Client Sign Up | Andre Georgiou PT</title>
+
+  <link rel="stylesheet" href="style.css?v=1.0" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+
+  <!-- Same centered-card look as client-login -->
+  <style>
+    .login-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #000;
+      padding: 2rem;
+    }
+    .login-form {
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+      background: #111;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    .login-form h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+    .login-form input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+    }
+    .login-form button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .login-form button.primary { background: #fff; color: #000; font-weight: bold; }
+    .login-form button.primary:hover { background: #ccc; }
+    .login-form button.secondary { background: #444; color: #fff; }
+    .login-form button.secondary:hover { background: #666; }
+
+    .status {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: #ddd;
+      text-align: center;
+      min-height: 1.2em;
+    }
+    .status.error { color: #ff8a8a; }
+    .status.success { color: #9be39b; }
+
+    .small-links {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    .small-links a { color: #ddd; text-decoration: underline; }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="css/theme.css" rel="stylesheet"><!-- or theme.css if in root -->
+</head>
+<body class="app-bg">
+  <div id="header-container"></div>
+
+  <main class="login-wrapper">
+    <section class="login-form">
+      <h2>Create Your Account</h2>
+
+      <form id="signupForm" novalidate>
+        <input id="fullName" type="text" placeholder="Full name" autocomplete="name" required />
+        <input id="email" type="email" placeholder="Email" autocomplete="email" required />
+        <input id="password" type="password" placeholder="Password (min 6 chars)" autocomplete="new-password" required />
+        <input id="password2" type="password" placeholder="Confirm password" autocomplete="new-password" required />
+
+        <button id="btnSignup" type="submit" class="primary">Sign Up</button>
+        <button id="btnBackToLogin" type="button" class="secondary">Back to Login</button>
+
+        <div id="formStatus" class="status" aria-live="polite"></div>
+
+        <div class="small-links">
+          <a href="client-login.html">Already have an account? Log in</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Supabase JS v2, then your shared client, then page script -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+  <script src="client-signup.js"></script>
+  <!-- Include this file on every page AFTER supabase-js v2 and BEFORE any page-specific JS -->
+<script>
+  // ======= CONFIG =======
+  const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+  const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
+
+  // Create ONE shared client globally
+  window.sb = window.sb || supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true }
+  });
+
+  // Full logout helper: sign out, clear any cached sb-* tokens, then redirect
+  window.logoutAndRedirect = async function(returnUrl = "client-login.html") {
+    try { await window.sb.auth.signOut(); } catch (_) {}
+    try {
+      Object.keys(localStorage)
+        .filter(k => k.startsWith("sb-"))
+        .forEach(k => localStorage.removeItem(k));
+      sessionStorage.clear?.();
+    } catch (_) {}
+    window.location.href = returnUrl;
+  };
+
+  // Utility to build a returnUrl param for redirects
+  window.withReturnUrl = function(target = "client-login.html") {
+    const here = encodeURIComponent(location.pathname.replace(/^\//, "") || "client-workouts.html");
+    const hasQ = target.includes("?");
+    return `${target}${hasQ ? "&" : "?"}returnUrl=${here}`;
+  };
+</script>
+
+
+  <!-- Site-wide nav/burger logic -->
+  <script src="script.js"></script>
+</body>
+</html>

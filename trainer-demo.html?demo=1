@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trainer Dashboard</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #141820;
+      --panel-2: #1b2130;
+      --muted: #a9b4c0;
+      --text: #f0f4f8;
+      --primary: #3b82f6;
+      --success: #10b981;
+      --danger: #ef4444;
+      --border: #2b3342;
+    }
+    body { background: var(--bg); color: var(--text); }
+    .navbar { background: #0a0c0f !important; }
+    .card, .list-group-item { background: var(--panel); border: 1px solid var(--border); color: var(--text); }
+    .form-control, .form-select, input[type="date"] {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .form-control::placeholder { color: #8ea3b3; }
+    .section-title { margin: 1.5rem 0 1rem; }
+
+    /* Action buttons */
+    .btn-action {
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-save { background-color: var(--success) !important; border-color: var(--success) !important; color: #fff !important; }
+    .btn-save:hover { background-color: #059669 !important; border-color: #059669 !important; }
+    .btn-delete { background-color: var(--danger) !important; border-color: var(--danger) !important; color: #fff !important; }
+    .btn-delete:hover { background-color: #dc2626 !important; border-color: #dc2626 !important; }
+
+    .demo-badge {
+      display: inline-flex; align-items: center; gap:.4rem;
+      background: #8b5cf6; color:#fff; padding:.25rem .55rem; border-radius: 999px; font-size:.75rem; font-weight:700;
+    }
+    .muted { color: var(--muted); }
+    #buildStamp { display:inline-block; background:#2a3241; padding:.2rem .5rem; border-radius:4px; font-size:.75rem; }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-semibold" href="index.html">PT Portal · Trainer</a>
+    <span id="demoBadge" class="demo-badge d-none">Demo Mode</span>
+  </div>
+</nav>
+
+<main class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 m-0">Trainer Dashboard</h1>
+    <button id="signOut" class="btn btn-outline-light btn-sm">Sign out</button>
+  </div>
+
+  <h3 class="section-title">All Clients</h3>
+  <div id="clientList" class="mb-4"></div>
+
+  <h3 class="section-title">Client Progress & Files</h3>
+  <div id="clientProgress"></div>
+</main>
+
+<footer class="text-center py-2">
+  <small id="buildStamp">Loading build info…</small>
+</footer>
+
+<!-- Supabase only loads when not in demo -->
+<script>
+  const url = new URL(location.href);
+  const forceDemo = url.searchParams.get('demo') === '1';
+  const state = {
+    demo: forceDemo,
+    currentUser: null,
+    clients: [],
+    currentClientId: null
+  };
+
+  // Demo data (used if demo mode or no DB clients yet)
+  const DEMO_CLIENTS = [
+    { id: 'demo-1', full_name: 'Alex Strong' },
+    { id: 'demo-2', full_name: 'Jordan Pace' },
+    { id: 'demo-3', full_name: 'Sam Power' }
+  ];
+  const DEMO_LOGS = {
+    'demo-1': [
+      { id: 'l1', log_date: '2025-07-15', body_weight: 78.8, notes: 'Great week' },
+      { id: 'l2', log_date: '2025-07-22', body_weight: 78.2, notes: 'More steps' }
+    ],
+    'demo-2': [
+      { id: 'l3', log_date: '2025-07-12', body_weight: 91.4, notes: 'Start' }
+    ],
+    'demo-3': []
+  };
+
+  // Render helpers
+  function renderClients(clients) {
+    document.getElementById('clientList').innerHTML =
+      clients.map(c => `
+        <div class="card p-3 mb-2 shadow">
+          <div class="d-flex justify-content-between align-items-center">
+            <div><strong>${c.full_name || c.id}</strong> <span class="muted">${state.demo ? '(demo)' : ''}</span></div>
+            <button class="btn btn-outline-light btn-sm" onclick="viewClient('${c.id}')">View Progress</button>
+          </div>
+        </div>
+      `).join('') || `<div class="text-muted">No clients yet.</div>`;
+  }
+
+  function renderLogs(logs, clientLabel) {
+    document.getElementById('clientProgress').innerHTML = `
+      <div class="card p-3 mb-3 shadow">
+        <h5 class="mb-3">Progress for ${clientLabel} ${state.demo ? '<span class="demo-badge" style="font-size:.65rem">Demo</span>' : ''}</h5>
+        <ul class="list-group mb-3">
+          ${logs.map(l => `
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <div style="min-width:250px;max-width:520px">
+                <div class="row g-2">
+                  <div class="col-4"><input type="date" value="${l.log_date}" class="form-control form-control-sm" id="date-${l.id}" ${state.demo ? 'disabled' : ''}></div>
+                  <div class="col-4"><input type="number" step="0.1" value="${l.body_weight ?? ''}" class="form-control form-control-sm" id="weight-${l.id}" ${state.demo ? 'disabled' : ''}></div>
+                  <div class="col-12 col-md-4"><input type="text" value="${l.notes ?? ''}" class="form-control form-control-sm" id="notes-${l.id}" ${state.demo ? 'disabled' : ''}></div>
+                </div>
+              </div>
+              <div class="d-flex gap-2 mt-2 mt-md-0">
+                <button class="btn btn-action btn-save" ${state.demo ? 'disabled title="Demo"' : `onclick="saveLog('${l.id}')"`}>💾 Save</button>
+                <button class="btn btn-action btn-delete" ${state.demo ? 'disabled title="Demo"' : `onclick="deleteLog('${l.id}')"`}>🗑 Delete</button>
+              </div>
+            </li>`).join('') || "<li class='list-group-item'>No logs yet.</li>"}
+        </ul>
+        ${state.demo ? '<div class="text-warning small">Demo Mode: editing is disabled.</div>' : ''}
+      </div>
+    `;
+  }
+
+  // Demo flow
+  async function initDemo() {
+    document.getElementById('demoBadge').classList.remove('d-none');
+    state.demo = true;
+    renderClients(DEMO_CLIENTS);
+    document.getElementById('buildStamp').textContent = `Build: ${new Date().toLocaleString()} · trainer (demo)`;
+  }
+
+  // Real (Supabase) flow
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  async function initLive() {
+    const supabase = window.supabase.createClient(
+      "https://ukqmpkzljwiwpyvygrai.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrcW1wa3psandpd3B5dnlncmFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMjk1MTAsImV4cCI6MjA2OTgwNTUxMH0.4H3XnW4tYSDofnFeSoEBqACVFh1Ud5sI8bXsnEsiu4E"
+    );
+
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      // no session – if demo not forced, go to login
+      if (!state.demo) return location.replace("trainer-login.html");
+    } else {
+      state.currentUser = sessionData.session.user;
+      // ensure trainer
+      const { data: profile } = await supabase.from("profiles").select("is_trainer, full_name").eq("id", state.currentUser.id).single();
+      if (!profile?.is_trainer) return location.replace("index.html");
+    }
+
+    // load clients
+    const { data: clients = [], error } = await supabase.from("profiles").select("id, full_name").neq("id", state.currentUser?.id || "");
+    if (error) console.error(error);
+
+    if (!clients.length && !state.demo) {
+      // Auto fallback to demo if empty DB
+      await initDemo();
+      return;
+    }
+
+    state.clients = clients;
+    renderClients(clients);
+    document.getElementById('buildStamp').textContent = `Build: ${new Date().toLocaleString()} · trainer`;
+    document.getElementById('signOut').onclick = async () => {
+      await supabase.auth.signOut();
+      location.replace("trainer-login.html");
+    };
+
+    // expose functions for live mode
+    window.viewClient = async (clientId) => {
+      state.currentClientId = clientId;
+      const label = clients.find(c => c.id === clientId)?.full_name || clientId;
+      const { data: logs = [] } = await supabase.from("progress").select("*").eq("client_id", clientId).order("log_date", { ascending: true });
+      renderLogs(logs, label);
+    };
+    window.saveLog = async (id) => {
+      const log_date = document.getElementById(`date-${id}`).value;
+      const body_weight = document.getElementById(`weight-${id}`).value || null;
+      const notes = document.getElementById(`notes-${id}`).value || null;
+      await supabase.from("progress").update({ log_date, body_weight: body_weight ? Number(body_weight) : null, notes }).eq("id", id);
+      window.viewClient(state.currentClientId);
+    };
+    window.deleteLog = async (id) => {
+      if (!confirm("Delete this log?")) return;
+      await supabase.from("progress").delete().eq("id", id);
+      window.viewClient(state.currentClientId);
+    };
+  }
+
+  // Boot
+  (async function start() {
+    if (state.demo) {
+      await initDemo();
+    } else {
+      await initLive();
+    }
+  })();
+
+  // Demo button stubs
+  window.viewClient = (clientId) => {
+    if (!state.demo) return; // live mode replaces this
+    state.currentClientId = clientId;
+    const label = (DEMO_CLIENTS.find(c => c.id === clientId) || {}).full_name || clientId;
+    renderLogs(DEMO_LOGS[clientId] || [], label);
+  };
+  window.saveLog = () => {};  // disabled in demo
+  window.deleteLog = () => {}; // disabled in demo
+</script>
+</body>
+</html>

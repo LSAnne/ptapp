@@ -1,0 +1,82 @@
+/* nav.css */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0a0f16;
+  padding: 10px 20px;
+  border-bottom: 1px solid #283142;
+}
+
+.burger {
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+#site-title {
+  color: white;
+  font-size: 20px;
+  margin: 0;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-menu a, .dropbtn {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #222;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #444;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: #111;
+    width: 100%;
+    padding: 10px;
+  }
+  .nav-menu.active { display: flex; }
+  .dropdown-content {
+    position: static;
+    box-shadow: none;
+  }
+}

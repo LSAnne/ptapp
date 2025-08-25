@@ -1,205 +1,120 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
   <title>Nutrition Tips</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .carousel-section {
-      margin: 3em auto 2em;
+    body {
+      background: #0b0d10;
+      color: #f0f4f8;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header, footer {
       text-align: center;
+      padding: 1em;
     }
 
-    .carousel-section h2 {
-      font-size: 2em;
-      margin-bottom: 1em;
+    h1, h2 {
+      text-align: center;
+      margin: 1em 0;
     }
 
-    .carousel-container {
-      position: relative;
-      max-width: 700px;
-      margin: 0 auto;
+    .recipe-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2em;
+      padding: 1em;
+    }
+
+    .recipe-card {
+      background: #141820;
+      border-radius: 8px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.4s ease;
-    }
-
-    .carousel-track img {
-      width: 100%;
-      flex-shrink: 0;
-      object-fit: cover;
-    }
-
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      border: none;
-      font-size: 2em;
-      padding: 0.2em 0.6em;
-      cursor: pointer;
-      z-index: 2;
-      border-radius: 4px;
-    }
-
-    .carousel-btn.prev {
-      left: 10px;
-    }
-
-    .carousel-btn.next {
-      right: 10px;
-    }
-
-    @media (max-width: 768px) {
-      .carousel-btn {
-        font-size: 1.5em;
-      }
-    }
-
-    .nutrition-container {
-      max-width: 1000px;
-      margin: 2em auto;
-      padding: 2em;
-      background: #fff;
-      color: #000;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .nutrition-container h2 {
-      text-align: center;
-      font-size: 2.2em;
-      margin-bottom: 2em;
-    }
-
-    .tip-card {
-      display: flex;
-      align-items: center;
-      background: #f5f5f5;
-      border-radius: 10px;
-      padding: 1.5em;
-      margin-bottom: 1.5em;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       transition: transform 0.2s ease;
     }
 
-    .tip-card:hover {
-      transform: scale(1.01);
+    .recipe-card:hover {
+      transform: scale(1.02);
     }
 
-    .tip-icon {
-      font-size: 2.5em;
-      margin-right: 1.2em;
+    .recipe-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
     }
 
-    .tip-content h3 {
-      margin: 0 0 0.3em;
-      font-size: 1.3em;
-      color: #111;
+    .dropdown-recipe {
+      padding: 1em;
+      border-top: 1px solid #2b3342;
     }
 
-    .tip-content p {
-      margin: 0;
-      color: #444;
+    .dropdown-recipe button {
+      background: none;
+      border: none;
+      color: #22d3ee;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      padding: 0;
+      text-align: left;
     }
 
-    @media (max-width: 768px) {
-      .tip-card {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+    .dropdown-content {
+      display: none;
+      padding-top: 1em;
+      color: #a9b4c0;
+    }
 
-      .tip-icon {
-        margin-bottom: 0.5em;
-        margin-right: 0;
-      }
+    .dropdown-content.open {
+      display: block;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="burger" id="burger">&#9776;</div>
-    <nav class="nav-menu" id="navMenu">
-      <a href="index.html">Home</a>
-      <a href="pricing-and-services.html">Pricing</a>
-      <a href="workouts.html">Workouts</a>
-      <a href="nutrition.html">Nutrition</a>
-      <a href="contact.html">Contact</a>
-      <a href="socials.html">Socials</a>
-      <a href="faq.html">FAQs</a>
-      <a href="client-upload.html">Client Upload</a>
-    </nav>
     <h1>Andre Georgiou Personal Training</h1>
   </header>
 
   <main>
-
-    <section class="carousel-section">
-      <h2>Recipe Inspiration</h2>
-      <div class="carousel-container">
-        <button class="carousel-btn prev">&#10094;</button>
-        <div class="carousel-track">
-          <img src="https://placehold.co/700x400?text=Overnight+Oats" alt="Overnight Oats">
-          <img src="https://placehold.co/700x400?text=Grilled+Chicken+Salad" alt="Grilled Chicken Salad">
-          <img src="https://placehold.co/700x400?text=Protein+Smoothie" alt="Protein Smoothie">
-          <img src="https://placehold.co/700x400?text=Tofu+Stir+Fry" alt="Tofu Stir Fry">
-        </div>
-        <button class="carousel-btn next">&#10095;</button>
-      </div>
-    </section>
-
-    <div class="nutrition-container">
-      <h2>Nutrition Tips for Sustainable Results</h2>
-
-      <div class="tip-card">
-        <div class="tip-icon">🥗</div>
-        <div class="tip-content">
-          <h3>Prioritise Protein</h3>
-          <p>Include a source of protein with every meal — it supports muscle growth and keeps you fuller longer.</p>
+    <h2>Recipe Inspiration</h2>
+    <div class="recipe-grid">
+      <div class="recipe-card">
+        <img src="https://placehold.co/300x200?text=Overnight+Oats" alt="Overnight Oats">
+        <div class="dropdown-recipe">
+          <button onclick="toggleDropdown(this)">View Recipe</button>
+          <div class="dropdown-content">Rolled oats, Greek yoghurt, almond milk, chia seeds, berries, honey.</div>
         </div>
       </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">💧</div>
-        <div class="tip-content">
-          <h3>Stay Hydrated</h3>
-          <p>Drinking enough water helps with energy, performance, digestion and appetite regulation. Aim for 2–3L/day.</p>
+      <div class="recipe-card">
+        <img src="https://placehold.co/300x200?text=Grilled+Chicken+Salad" alt="Grilled Chicken Salad">
+        <div class="dropdown-recipe">
+          <button onclick="toggleDropdown(this)">View Recipe</button>
+          <div class="dropdown-content">Grilled chicken, mixed greens, cherry tomatoes, avocado, olive oil, lemon.</div>
         </div>
       </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">🕒</div>
-        <div class="tip-content">
-          <h3>Consistency Over Perfection</h3>
-          <p>Don’t chase perfection. Focus on eating mostly whole foods and getting back on track after off days.</p>
+      <div class="recipe-card">
+        <img src="https://placehold.co/300x200?text=Protein+Smoothie" alt="Protein Smoothie">
+        <div class="dropdown-recipe">
+          <button onclick="toggleDropdown(this)">View Recipe</button>
+          <div class="dropdown-content">Whey protein, banana, peanut butter, oat milk, flaxseed, cocoa powder.</div>
         </div>
       </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">📊</div>
-        <div class="tip-content">
-          <h3>Track or Reflect</h3>
-          <p>Whether it’s MyFitnessPal, photos, or a food diary — track what works and be honest with what doesn’t.</p>
-        </div>
-      </div>
-
-      <div class="tip-card">
-        <div class="tip-icon">🥄</div>
-        <div class="tip-content">
-          <h3>Eat Mindfully</h3>
-          <p>Slow down, chew thoroughly, and eat without distractions. It improves digestion and helps with portion control.</p>
+      <div class="recipe-card">
+        <img src="https://placehold.co/300x200?text=Tofu+Stir+Fry" alt="Tofu Stir Fry">
+        <div class="dropdown-recipe">
+          <button onclick="toggleDropdown(this)">View Recipe</button>
+          <div class="dropdown-content">Tofu, broccoli, peppers, soy sauce, sesame oil, ginger, garlic.</div>
         </div>
       </div>
     </div>
@@ -210,42 +125,11 @@
   </footer>
 
   <script>
-    const burger = document.getElementById('burger');
-    const navMenu = document.getElementById('navMenu');
-    burger.addEventListener('click', () => {
-      navMenu.classList.toggle('show');
-    });
-
-    const track = document.querySelector('.carousel-track');
-    const images = document.querySelectorAll('.carousel-track img');
-    const prev = document.querySelector('.carousel-btn.prev');
-    const next = document.querySelector('.carousel-btn.next');
-    let index = 0;
-
-    function updateCarousel() {
-      const width = images[0].clientWidth;
-      track.style.transform = `translateX(-${index * width}px)`;
-    }
-
-    window.addEventListener('resize', updateCarousel);
-
-    next.addEventListener('click', () => {
-      index = (index + 1) % images.length;
-      updateCarousel();
-    });
-
-    prev.addEventListener('click', () => {
-      index = (index - 1 + images.length) % images.length;
-      updateCarousel();
-    });
-
-    updateCarousel();
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(reg => console.log('Service Worker registered', reg))
-        .catch(err => console.error('Service Worker error', err));
+    function toggleDropdown(button) {
+      const content = button.nextElementSibling;
+      content.classList.toggle('open');
     }
   </script>
+
 </body>
 </html>
